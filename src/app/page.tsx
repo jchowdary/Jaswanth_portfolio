@@ -90,7 +90,7 @@ function ScrollyCanvas({ scrollYProgress }: { scrollYProgress: MotionValue<numbe
 }
 
 // ═══════════════════════════════════════
-// OVERLAY – ALL 6 SLIDES
+// OVERLAY – ALL 6 SLIDES + PARTICLES
 // ═══════════════════════════════════════
 function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const s1Opacity = useTransform(scrollYProgress, [0, 0.08, 0.14], [1, 1, 0]);
@@ -124,6 +124,46 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
         }
       `}</style>
       <motion.div style={{ backgroundColor: moneyHeistBg }} className="absolute inset-0" />
+
+      {/* ═══════ BACKGROUND PARTICLES (red dots + gold sparks) ═══════ */}
+      <motion.div style={{ opacity: maskOpacity }} className="absolute inset-0 overflow-hidden">
+        {(() => {
+          const particles = [];
+          // 20 red dots
+          for (let i = 0; i < 20; i++) {
+            particles.push(
+              <div
+                key={`rd-${i}`}
+                className="bg-particle red-dot"
+                style={{
+                  left: `${(i * 5.3) % 95}%`,
+                  width: `${2 + Math.random() * 3}px`,
+                  height: `${2 + Math.random() * 3}px`,
+                  animationDuration: `${6 + Math.random() * 8}s`,
+                  animationDelay: `${Math.random() * 8}s`,
+                }}
+              />
+            );
+          }
+          // 20 gold sparks
+          for (let i = 0; i < 20; i++) {
+            particles.push(
+              <div
+                key={`gs-${i}`}
+                className="bg-particle gold-spark"
+                style={{
+                  left: `${(i * 5.7 + 2) % 95}%`,
+                  width: `${1.5 + Math.random() * 2.5}px`,
+                  height: `${1.5 + Math.random() * 2.5}px`,
+                  animationDuration: `${5 + Math.random() * 7}s`,
+                  animationDelay: `${Math.random() * 6}s`,
+                }}
+              />
+            );
+          }
+          return particles;
+        })()}
+      </motion.div>
 
       {/* Floating Masks */}
       <motion.div style={{ opacity: maskOpacity }} className="absolute inset-0 overflow-hidden">
@@ -174,6 +214,27 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             animation: "avatarFloat 3.6s ease-in-out infinite"
           }}
         />
+        {/* Speech Bubble */}
+        <div style={{
+          position: "absolute",
+          bottom: "160px",
+          right: "18%",
+          transform: "translateX(50%)",
+          background: "rgba(10,7,7,0.92)",
+          border: "1.5px solid #c41e3a",
+          borderRadius: "16px 16px 4px 16px",
+          padding: "10px 16px",
+          maxWidth: "220px",
+          color: "#f5e7d9",
+          fontSize: "0.8rem",
+          lineHeight: "1.4",
+          boxShadow: "0 4px 20px rgba(196,30,58,0.3)",
+          pointerEvents: "none",
+          zIndex: 25
+        }}>
+          <div style={{ color: "#c41e3a", fontFamily: "'Anton', sans-serif", fontSize: "0.6rem", letterSpacing: "2px", marginBottom: "4px" }}>🎭 The Professor</div>
+          ¡Hola! Welcome to the heist. I'm Jaswanth's digital avatar — scroll down!
+        </div>
       </motion.div>
 
       {/* SLIDE 2: ABOUT */}
@@ -204,6 +265,27 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             animation: "avatarFloat 3.6s ease-in-out infinite"
           }}
         />
+        {/* Speech Bubble */}
+        <div style={{
+          position: "absolute",
+          bottom: "160px",
+          right: "18%",
+          transform: "translateX(50%)",
+          background: "rgba(10,7,7,0.92)",
+          border: "1.5px solid #c41e3a",
+          borderRadius: "16px 16px 4px 16px",
+          padding: "10px 16px",
+          maxWidth: "220px",
+          color: "#f5e7d9",
+          fontSize: "0.8rem",
+          lineHeight: "1.4",
+          boxShadow: "0 4px 20px rgba(196,30,58,0.3)",
+          pointerEvents: "none",
+          zIndex: 25
+        }}>
+          <div style={{ color: "#c41e3a", fontFamily: "'Anton', sans-serif", fontSize: "0.6rem", letterSpacing: "2px", marginBottom: "4px" }}>🎭 The Professor</div>
+          This is the dossier. 8.78 CGPA, Malla Reddy College. Impressive, right?
+        </div>
       </motion.div>
 
       {/* SLIDE 3: SKILLS */}
@@ -235,6 +317,27 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             animation: "avatarFloat 3.6s ease-in-out infinite"
           }}
         />
+        {/* Speech Bubble (left side) */}
+        <div style={{
+          position: "absolute",
+          bottom: "160px",
+          left: "18%",
+          transform: "translateX(-50%)",
+          background: "rgba(10,7,7,0.92)",
+          border: "1.5px solid #c41e3a",
+          borderRadius: "16px 16px 16px 4px",
+          padding: "10px 16px",
+          maxWidth: "220px",
+          color: "#f5e7d9",
+          fontSize: "0.8rem",
+          lineHeight: "1.4",
+          boxShadow: "0 4px 20px rgba(196,30,58,0.3)",
+          pointerEvents: "none",
+          zIndex: 25
+        }}>
+          <div style={{ color: "#c41e3a", fontFamily: "'Anton', sans-serif", fontSize: "0.6rem", letterSpacing: "2px", marginBottom: "4px" }}>🎭 The Professor</div>
+          Full‑stack, Python, CCNA — every tool you need for the perfect heist. 💻
+        </div>
       </motion.div>
 
       {/* SLIDE 4: INTERNSHIP */}
@@ -271,6 +374,27 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             animation: "avatarFloat 3.6s ease-in-out infinite"
           }}
         />
+        {/* Speech Bubble */}
+        <div style={{
+          position: "absolute",
+          bottom: "160px",
+          right: "18%",
+          transform: "translateX(50%)",
+          background: "rgba(10,7,7,0.92)",
+          border: "1.5px solid #c41e3a",
+          borderRadius: "16px 16px 4px 16px",
+          padding: "10px 16px",
+          maxWidth: "220px",
+          color: "#f5e7d9",
+          fontSize: "0.8rem",
+          lineHeight: "1.4",
+          boxShadow: "0 4px 20px rgba(196,30,58,0.3)",
+          pointerEvents: "none",
+          zIndex: 25
+        }}>
+          <div style={{ color: "#c41e3a", fontFamily: "'Anton', sans-serif", fontSize: "0.6rem", letterSpacing: "2px", marginBottom: "4px" }}>🎭 The Professor</div>
+          Real missions at Eidiko and Cognifyz. Linux & SQL trained. 👍
+        </div>
       </motion.div>
 
       {/* SLIDE 5: PROJECTS */}
@@ -302,6 +426,27 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             animation: "avatarFloat 3.6s ease-in-out infinite"
           }}
         />
+        {/* Speech Bubble (left side) */}
+        <div style={{
+          position: "absolute",
+          bottom: "160px",
+          left: "18%",
+          transform: "translateX(-50%)",
+          background: "rgba(10,7,7,0.92)",
+          border: "1.5px solid #c41e3a",
+          borderRadius: "16px 16px 16px 4px",
+          padding: "10px 16px",
+          maxWidth: "220px",
+          color: "#f5e7d9",
+          fontSize: "0.8rem",
+          lineHeight: "1.4",
+          boxShadow: "0 4px 20px rgba(196,30,58,0.3)",
+          pointerEvents: "none",
+          zIndex: 25
+        }}>
+          <div style={{ color: "#c41e3a", fontFamily: "'Anton', sans-serif", fontSize: "0.6rem", letterSpacing: "2px", marginBottom: "4px" }}>🎭 The Professor</div>
+          Stock prediction, blockchain sharing, and enterprise sims. 🎯
+        </div>
       </motion.div>
 
       {/* SLIDE 6: CONTACT */}
@@ -331,6 +476,27 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             animation: "avatarFloat 3.6s ease-in-out infinite"
           }}
         />
+        {/* Speech Bubble */}
+        <div style={{
+          position: "absolute",
+          bottom: "160px",
+          right: "18%",
+          transform: "translateX(50%)",
+          background: "rgba(10,7,7,0.92)",
+          border: "1.5px solid #c41e3a",
+          borderRadius: "16px 16px 4px 16px",
+          padding: "10px 16px",
+          maxWidth: "220px",
+          color: "#f5e7d9",
+          fontSize: "0.8rem",
+          lineHeight: "1.4",
+          boxShadow: "0 4px 20px rgba(196,30,58,0.3)",
+          pointerEvents: "none",
+          zIndex: 25
+        }}>
+          <div style={{ color: "#c41e3a", fontFamily: "'Anton', sans-serif", fontSize: "0.6rem", letterSpacing: "2px", marginBottom: "4px" }}>🎭 The Professor</div>
+          Drop a message! The crew is recruiting. Bella Ciao! 🔴
+        </div>
       </motion.div>
     </div>
   );
