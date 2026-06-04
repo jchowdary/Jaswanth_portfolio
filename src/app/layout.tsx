@@ -13,6 +13,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script type="importmap">
+          {`{
+            "imports": {
+              "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+              "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+          }`}
+        </script>
+      </head>
       <body className={`${inter.variable} ${outfit.variable} font-sans antialiased bg-[#030303] text-[#f5f5f7]`}>
         {children}
       </body>
