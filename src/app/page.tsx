@@ -90,7 +90,7 @@ function ScrollyCanvas({ scrollYProgress }: { scrollYProgress: MotionValue<numbe
 }
 
 // ═══════════════════════════════════════
-// OVERLAY – ALL 6 SLIDES (CRYSTAL CLEAR)
+// OVERLAY – ALL 6 SLIDES
 // ═══════════════════════════════════════
 function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const s1Opacity = useTransform(scrollYProgress, [0, 0.08, 0.14], [1, 1, 0]);
@@ -117,6 +117,12 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
 
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <style>{`
+        @keyframes avatarFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-11px); }
+        }
+      `}</style>
       <motion.div style={{ backgroundColor: moneyHeistBg }} className="absolute inset-0" />
 
       {/* Floating Masks */}
@@ -154,6 +160,20 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             <motion.div className="w-full h-1/2 bg-white/80" animate={{ y: ["-100%", "200%"] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} />
           </div>
         </div>
+        <img
+          src="/salute.png"
+          alt="salute avatar"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: "3%",
+            width: "185px",
+            filter: "drop-shadow(0 0 16px rgba(196,30,58,0.6)) drop-shadow(0 6px 20px rgba(0,0,0,0.8))",
+            pointerEvents: "none",
+            zIndex: 20,
+            animation: "avatarFloat 3.6s ease-in-out infinite"
+          }}
+        />
       </motion.div>
 
       {/* SLIDE 2: ABOUT */}
@@ -170,6 +190,20 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             </div>
           </div>
         </div>
+        <img
+          src="/shrug.png"
+          alt="shrug avatar"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: "3%",
+            width: "185px",
+            filter: "drop-shadow(0 0 16px rgba(196,30,58,0.6)) drop-shadow(0 6px 20px rgba(0,0,0,0.8))",
+            pointerEvents: "none",
+            zIndex: 20,
+            animation: "avatarFloat 3.6s ease-in-out infinite"
+          }}
+        />
       </motion.div>
 
       {/* SLIDE 3: SKILLS */}
@@ -187,6 +221,20 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             ))}
           </div>
         </div>
+        <img
+          src="/glasses.png"
+          alt="glasses avatar"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: "3%",
+            width: "185px",
+            filter: "drop-shadow(0 0 16px rgba(196,30,58,0.6)) drop-shadow(0 6px 20px rgba(0,0,0,0.8))",
+            pointerEvents: "none",
+            zIndex: 20,
+            animation: "avatarFloat 3.6s ease-in-out infinite"
+          }}
+        />
       </motion.div>
 
       {/* SLIDE 4: INTERNSHIP */}
@@ -209,6 +257,20 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             </div>
           </div>
         </div>
+        <img
+          src="/blueprint.png"
+          alt="blueprint avatar"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: "3%",
+            width: "185px",
+            filter: "drop-shadow(0 0 16px rgba(196,30,58,0.6)) drop-shadow(0 6px 20px rgba(0,0,0,0.8))",
+            pointerEvents: "none",
+            zIndex: 20,
+            animation: "avatarFloat 3.6s ease-in-out infinite"
+          }}
+        />
       </motion.div>
 
       {/* SLIDE 5: PROJECTS */}
@@ -226,6 +288,20 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             ))}
           </div>
         </div>
+        <img
+          src="/arms.png"
+          alt="arms avatar"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: "3%",
+            width: "185px",
+            filter: "drop-shadow(0 0 16px rgba(196,30,58,0.6)) drop-shadow(0 6px 20px rgba(0,0,0,0.8))",
+            pointerEvents: "none",
+            zIndex: 20,
+            animation: "avatarFloat 3.6s ease-in-out infinite"
+          }}
+        />
       </motion.div>
 
       {/* SLIDE 6: CONTACT */}
@@ -241,6 +317,20 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
             <button type="submit" className="w-full bg-[#c41e3a] hover:bg-[#a01830] text-white font-display tracking-wider text-sm py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 font-semibold">SEND SIGNAL 🔴 <ArrowRight className="w-4 h-4" /></button>
           </form>
         </div>
+        <img
+          src="/handshake.png"
+          alt="handshake avatar"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: "3%",
+            width: "185px",
+            filter: "drop-shadow(0 0 16px rgba(196,30,58,0.6)) drop-shadow(0 6px 20px rgba(0,0,0,0.8))",
+            pointerEvents: "none",
+            zIndex: 20,
+            animation: "avatarFloat 3.6s ease-in-out infinite"
+          }}
+        />
       </motion.div>
     </div>
   );
