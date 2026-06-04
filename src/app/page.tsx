@@ -2,8 +2,6 @@
 import { useScroll, useMotionValueEvent, useTransform, motion, AnimatePresence, MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 // ═══════════════════════════════════════
 // SCROLLY CANVAS
@@ -92,7 +90,7 @@ function ScrollyCanvas({ scrollYProgress }: { scrollYProgress: MotionValue<numbe
 }
 
 // ═══════════════════════════════════════
-// OVERLAY WITH 3D AVATAR + CLEAR TEXT
+// OVERLAY – ALL 6 SLIDES (CRYSTAL CLEAR)
 // ═══════════════════════════════════════
 function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const s1Opacity = useTransform(scrollYProgress, [0, 0.08, 0.14], [1, 1, 0]);
@@ -114,113 +112,25 @@ function Overlay({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) 
   const s6Y = useTransform(scrollYProgress, [0.70, 0.76, 0.90, 1.0], [20, 0, 0, 0]);
 
   const moneyHeistBg = useTransform(scrollYProgress, [0.26, 0.34], ["rgba(3,3,3,0)", "rgba(10,7,7,1)"]);
-  const maskOpacity = useTransform(scrollYProgress, [0.26, 0.34], [0, 0.15]);
+  const maskOpacity = useTransform(scrollYProgress, [0.26, 0.34], [0, 0.12]);
   const marqueeOpacity = useTransform(scrollYProgress, [0.26, 0.34], [0, 1]);
-
-  // 3D Avatar refs
-  const avatarContainerRef = useRef<HTMLDivElement>(null);
-  const avatarCanvasRef = useRef<HTMLCanvasElement>(null);
-
-  // Set up Three.js avatar scene
-  useEffect(() => {
-    if (!avatarCanvasRef.current) return;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-    camera.position.set(0, 1.5, 4.5);
-    camera.lookAt(0, 0.9, 0);
-
-    const renderer = new THREE.WebGLRenderer({ canvas: avatarCanvasRef.current, alpha: true, antialias: true });
-    renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    // Lights
-    scene.add(new THREE.AmbientLight(0xffeedd, 0.8));
-    const dirLight = new THREE.DirectionalLight(0xffddbb, 1.6);
-    dirLight.position.set(2, 4, 3);
-    scene.add(dirLight);
-
-    // Small platform
-    const platform = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.7, 0.75, 0.05, 32),
-      new THREE.MeshStandardMaterial({ color: 0x1a0a0a, metalness: 0.9, roughness: 0.2 })
-    );
-    platform.position.y = -0.03;
-    scene.add(platform);
-
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(0.8, 0.02, 32, 128),
-      new THREE.MeshStandardMaterial({ color: 0xffb347, emissive: 0xc41e3a, emissiveIntensity: 0.6 })
-    );
-    ring.rotation.x = Math.PI / 2;
-    scene.add(ring);
-
-    const modelGroup = new THREE.Group();
-    scene.add(modelGroup);
-
-    // Load professor.glb
-    const loader = new GLTFLoader();
-    loader.load('/professor.glb', (gltf) => {
-      const model = gltf.scene;
-      model.position.set(0, 0.15, 0);
-      model.scale.set(0.85, 0.85, 0.85);
-      modelGroup.add(model);
-    });
-
-    // Animation loop
-    let animationId: number;
-    function animate() {
-      animationId = requestAnimationFrame(animate);
-      ring.rotation.z += 0.008;
-      modelGroup.rotation.y = Math.sin(Date.now() * 0.0005) * 0.08;
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize handler for avatar canvas
-    const resize = () => {
-      if (!avatarContainerRef.current) return;
-      const w = avatarContainerRef.current.clientWidth;
-      const h = avatarContainerRef.current.clientHeight;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    };
-    window.addEventListener('resize', resize);
-    resize();
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
-      renderer.dispose();
-    };
-  }, []);
 
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-none z-10">
       <motion.div style={{ backgroundColor: moneyHeistBg }} className="absolute inset-0" />
 
-      {/* 3D Professor Avatar - bottom right, fades in with Money Heist */}
-      <motion.div
-        ref={avatarContainerRef}
-        style={{ opacity: maskOpacity }}
-        className="absolute bottom-2 right-2 w-[180px] h-[260px] md:w-[260px] md:h-[380px] z-30 pointer-events-none"
-      >
-        <canvas ref={avatarCanvasRef} className="w-full h-full" />
-      </motion.div>
-
       {/* Floating Masks */}
       <motion.div style={{ opacity: maskOpacity }} className="absolute inset-0 overflow-hidden">
         <span className="floating-mask" style={{ left: '5%', animationDuration: '16s', animationDelay: '0s', fontSize: '2rem' }}>🎭</span>
-        <span className="floating-mask" style={{ left: '10%', animationDuration: '18s', animationDelay: '1s', fontSize: '2.5rem' }}>💀</span>
-        {/* ... (keep all 20 mask spans as previously provided) ... */}
-        <span className="floating-mask" style={{ left: '92%', animationDuration: '22s', animationDelay: '2.2s', fontSize: '2.7rem' }}>🎭</span>
-        <span className="floating-mask" style={{ left: '15%', animationDuration: '15s', animationDelay: '5s', fontSize: '1.7rem' }}>💀</span>
-        <span className="floating-mask" style={{ left: '35%', animationDuration: '20s', animationDelay: '3.8s', fontSize: '2.9rem' }}>🎭</span>
-        <span className="floating-mask" style={{ left: '50%', animationDuration: '17s', animationDelay: '1.8s', fontSize: '2.3rem' }}>🖤</span>
-        <span className="floating-mask" style={{ left: '65%', animationDuration: '19s', animationDelay: '4.2s', fontSize: '1.5rem' }}>🎭</span>
-        <span className="floating-mask" style={{ left: '80%', animationDuration: '13s', animationDelay: '0.3s', fontSize: '3.1rem' }}>💀</span>
-        <span className="floating-mask" style={{ left: '95%', animationDuration: '21s', animationDelay: '2.8s', fontSize: '2rem' }}>🎭</span>
-        <span className="floating-mask" style={{ left: '22%', animationDuration: '16s', animationDelay: '5.5s', fontSize: '2.5rem' }}>🖤</span>
+        <span className="floating-mask" style={{ left: '15%', animationDuration: '18s', animationDelay: '1s', fontSize: '2.5rem' }}>💀</span>
+        <span className="floating-mask" style={{ left: '25%', animationDuration: '14s', animationDelay: '2s', fontSize: '1.8rem' }}>🎭</span>
+        <span className="floating-mask" style={{ left: '35%', animationDuration: '20s', animationDelay: '0.5s', fontSize: '3rem' }}>🖤</span>
+        <span className="floating-mask" style={{ left: '45%', animationDuration: '15s', animationDelay: '3s', fontSize: '2.2rem' }}>🎭</span>
+        <span className="floating-mask" style={{ left: '55%', animationDuration: '17s', animationDelay: '1.5s', fontSize: '2.8rem' }}>💀</span>
+        <span className="floating-mask" style={{ left: '65%', animationDuration: '19s', animationDelay: '4s', fontSize: '1.6rem' }}>🎭</span>
+        <span className="floating-mask" style={{ left: '75%', animationDuration: '13s', animationDelay: '2.5s', fontSize: '2.4rem' }}>🖤</span>
+        <span className="floating-mask" style={{ left: '85%', animationDuration: '21s', animationDelay: '0.8s', fontSize: '3.2rem' }}>🎭</span>
+        <span className="floating-mask" style={{ left: '92%', animationDuration: '16s', animationDelay: '3.5s', fontSize: '1.9rem' }}>💀</span>
       </motion.div>
 
       {/* Marquee */}
